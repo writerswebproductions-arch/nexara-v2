@@ -27,7 +27,7 @@ export default function Contact() {
     <main style={{ maxWidth: "1200px", margin: "0 auto", padding: "80px 20px" }}>
       <span style={{ background: "#e63946", color: "#fff", padding: "4px 12px", borderRadius: "4px", fontSize: "12px", fontWeight: 700, letterSpacing: "2px" }}>GET IN TOUCH</span>
       <h1 style={{ fontSize: "48px", fontWeight: 900, color: "#fff", marginTop: "16px" }}>Contact <span style={{ color: "#e63946" }}>Us</span></h1>
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "60px", marginTop: "48px" }}>
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(300px, 1fr))", gap: "40px", marginTop: "48px" }}>
 
         {/* Left - Form */}
         <div>
