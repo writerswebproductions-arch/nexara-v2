@@ -1,33 +1,9 @@
-"use client";
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { getPosts } from '../lib/api';
 import PostCard from '../components/PostCard';
-import { useState } from 'react';
-
-async function fetchPosts() {
-  return await getPosts();
-}
+import NewsletterForm from '../components/NewsletterForm';
 
 export default function Home() {
-  const [email, setEmail] = useState('');
-  const [status, setStatus] = useState('');
-
-  async function handleNewsletter(e: React.FormEvent) {
-    e.preventDefault();
-    setStatus('sending');
-    const res = await fetch('/api/newsletter', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email }),
-    });
-    if (res.ok) {
-      setStatus('success');
-      setEmail('');
-    } else {
-      setStatus('error');
-    }
-  }
-
   return (
     <main>
       <section style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%)', padding: '80px 20px', textAlign: 'center' }}>
@@ -57,34 +33,7 @@ export default function Home() {
         <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#fff' }}>Never Miss an Update</h2>
           <p style={{ color: '#999', marginTop: '12px', fontSize: '16px' }}>Get the latest news and opportunities delivered straight to your inbox.</p>
-          <form onSubmit={handleNewsletter} style={{ display: 'flex', gap: '12px', marginTop: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
-            <input
-              type='email'
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder='Enter your email address'
-              required
-              style={{ flex: 1, minWidth: '240px', background: '#161616', border: '1px solid #333', borderRadius: '6px', padding: '14px 16px', color: '#fff', fontSize: '16px', outline: 'none' }}
-            />
-            <button
-              type='submit'
-              disabled={status === 'sending'}
-              style={{ background: '#e63946', color: '#fff', padding: '14px 24px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
-            >
-              {status === 'sending' ? 'Subscribing...' : 'Subscribe Free'}
-            </button>
-          </form>
-          {status === 'success' && <p style={{ color: '#4caf50', fontSize: '14px', marginTop: '12px' }}>✅ You're subscribed! Welcome to NEXARA.</p>}
-          {status === 'error' && <p style={{ color: '#e63946', fontSize: '14px', marginTop: '12px' }}>❌ Something went wrong. Please try again.</p>}
-          <p style={{ color: '#555', fontSize: '12px', marginTop: '12px' }}>No spam. Unsubscribe anytime.</p>
-        </div>
-      </section>
-
-      <section style={{ padding: '40px 20px 80px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ background: '#161616', border: '1px solid #222', borderRadius: '12px', padding: '48px', textAlign: 'center' }}>
-          <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#fff' }}>Discover Opportunities</h2>
-          <p style={{ color: '#999', marginTop: '12px', fontSize: '16px' }}>Scholarships, grants, fellowships, jobs and more — updated daily.</p>
-          <Link href='/opportunities' style={{ display: 'inline-block', marginTop: '24px', background: '#e63946', color: '#fff', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, textDecoration: 'none' }}>Explore Opportunities</Link>
+          <NewsletterForm />
         </div>
       </section>
     </main>
