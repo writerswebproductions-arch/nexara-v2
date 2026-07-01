@@ -2,6 +2,7 @@ import { getPost } from '../../../lib/api';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
+import AdUnit from '../../../components/AdUnit';
 
 function stripHtml(html: string) {
   return html.replace(/<[^>]+>/g, '').trim();
@@ -77,10 +78,16 @@ export default async function SinglePost({ params }: { params: Promise<{ slug: s
         />
       )}
 
+      {/* In-Article Ad */}
+      <AdUnit slot="in-article" />
+
       <div
         style={{ color: '#ccc', fontSize: '17px', lineHeight: 1.8, marginTop: '32px' }}
         dangerouslySetInnerHTML={{ __html: post.content?.rendered || post.excerpt.rendered }}
       />
+
+      {/* In-Article Ad */}
+      <AdUnit slot="in-article" />
     </main>
   );
 }

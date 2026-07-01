@@ -1,32 +1,30 @@
 "use client";
 import Link from 'next/link';
-import { useState, useEffect } from 'react';
+import { getPosts } from '../lib/api';
 import PostCard from '../components/PostCard';
+import { useState } from 'react';
+
+async function fetchPosts() {
+  return await getPosts();
+}
 
 export default function Home() {
-  const [posts, setPosts] = useState<any[]>([]);
-  const [email, setEmail] = useState("");
-  const [subStatus, setSubStatus] = useState("");
+  const [email, setEmail] = useState('');
+  const [status, setStatus] = useState('');
 
-  useEffect(() => {
-    fetch('/api/posts').then(r => r.json()).then(data => {
-      if (Array.isArray(data)) setPosts(data.slice(0, 3));
-    }).catch(() => {});
-  }, []);
-
-  async function handleSubscribe(e: React.FormEvent) {
+  async function handleNewsletter(e: React.FormEvent) {
     e.preventDefault();
-    setSubStatus("sending");
-    const res = await fetch("/api/subscribe", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    setStatus('sending');
+    const res = await fetch('/api/newsletter', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email }),
     });
     if (res.ok) {
-      setSubStatus("success");
-      setEmail("");
+      setStatus('success');
+      setEmail('');
     } else {
-      setSubStatus("error");
+      setStatus('error');
     }
   }
 
@@ -44,18 +42,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
-          <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff' }}>Latest Stories</h2>
-          <Link href='/blog' style={{ color: '#e63946', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}>View All →</Link>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-          {posts.length === 0 && <p style={{ color: '#555' }}>No posts yet.</p>}
-          {posts.map((post: any) => (
-            <PostCard key={post.id} post={post} />
-          ))}
-        </div>
-      </section>
+      <FeaturedPosts />
 
       <section style={{ padding: '0 20px 60px', maxWidth: '1200px', margin: '0 auto' }}>
         <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff', marginBottom: '32px' }}>Browse By Category</h2>
@@ -70,7 +57,7 @@ export default function Home() {
         <div style={{ maxWidth: '600px', margin: '0 auto', textAlign: 'center' }}>
           <h2 style={{ fontSize: '32px', fontWeight: 800, color: '#fff' }}>Never Miss an Update</h2>
           <p style={{ color: '#999', marginTop: '12px', fontSize: '16px' }}>Get the latest news and opportunities delivered straight to your inbox.</p>
-          <form onSubmit={handleSubscribe} style={{ display: 'flex', gap: '12px', marginTop: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
+          <form onSubmit={handleNewsletter} style={{ display: 'flex', gap: '12px', marginTop: '24px', flexWrap: 'wrap', justifyContent: 'center' }}>
             <input
               type='email'
               value={email}
@@ -81,14 +68,14 @@ export default function Home() {
             />
             <button
               type='submit'
-              disabled={subStatus === 'sending'}
+              disabled={status === 'sending'}
               style={{ background: '#e63946', color: '#fff', padding: '14px 24px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', border: 'none', cursor: 'pointer', whiteSpace: 'nowrap' }}
             >
-              {subStatus === 'sending' ? 'Subscribing...' : 'Subscribe Free'}
+              {status === 'sending' ? 'Subscribing...' : 'Subscribe Free'}
             </button>
           </form>
-          {subStatus === 'success' && <p style={{ color: '#4caf50', fontSize: '14px', marginTop: '12px' }}>You're subscribed! Thank you.</p>}
-          {subStatus === 'error' && <p style={{ color: '#e63946', fontSize: '14px', marginTop: '12px' }}>Something went wrong. Please try again.</p>}
+          {status === 'success' && <p style={{ color: '#4caf50', fontSize: '14px', marginTop: '12px' }}>✅ You're subscribed! Welcome to NEXARA.</p>}
+          {status === 'error' && <p style={{ color: '#e63946', fontSize: '14px', marginTop: '12px' }}>❌ Something went wrong. Please try again.</p>}
           <p style={{ color: '#555', fontSize: '12px', marginTop: '12px' }}>No spam. Unsubscribe anytime.</p>
         </div>
       </section>
@@ -101,5 +88,24 @@ export default function Home() {
         </div>
       </section>
     </main>
+  );
+}
+
+async function FeaturedPosts() {
+  const posts = await getPosts();
+  const featured = posts.slice(0, 3);
+  return (
+    <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
+        <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff' }}>Latest Stories</h2>
+        <Link href='/blog' style={{ color: '#e63946', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}>View All →</Link>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+        {featured.length === 0 && <p style={{ color: '#555' }}>No posts yet.</p>}
+        {featured.map((post: any) => (
+          <PostCard key={post.id} post={post} />
+        ))}
+      </div>
+    </section>
   );
 }

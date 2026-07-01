@@ -1,14 +1,17 @@
 import { Resend } from 'resend';
-import { NextRequest, NextResponse } from 'next/server';
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export async function POST(req: NextRequest) {
+export async function POST(request: Request) {
   try {
-    const { name, email, message } = await req.json();
+    const { name, email, message } = await request.json();
+
+    if (!name || !email || !message) {
+      return Response.json({ error: 'All fields are required.' }, { status: 400 });
+    }
 
     await resend.emails.send({
-      from: 'NEXARA Contact <onboarding@resend.dev>',
+      from: 'nexara@writerswebproduction.com',
       to: 'nexara@writerswebproduction.com',
       subject: `New Contact Message from ${name}`,
       html: `
@@ -18,10 +21,11 @@ export async function POST(req: NextRequest) {
         <p><strong>Message:</strong></p>
         <p>${message}</p>
       `,
+      replyTo: email,
     });
 
-    return NextResponse.json({ success: true });
+    return Response.json({ success: true });
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
+    return Response.json({ error: 'Failed to send message.' }, { status: 500 });
   }
 }
