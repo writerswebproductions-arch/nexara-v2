@@ -3,6 +3,7 @@ import './globals.css';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import AdUnit from '../components/AdUnit';
+import GoogleAnalytics from '../components/GoogleAnalytics';
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.writerswebproduction.com'),
@@ -46,6 +47,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         `}</style>
       </head>
       <body>
+        <GoogleAnalytics />
         <Navbar />
         {children}
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 20px' }}>
