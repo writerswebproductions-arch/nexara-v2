@@ -62,6 +62,7 @@ export default function Navbar() {
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
+            onTouchStart={(e) => { e.preventDefault(); setOpen((v) => !v); }}
             style={{ background: "#e63946", border: "none", color: "#fff", fontSize: "22px", cursor: "pointer", width: "44px", height: "44px", borderRadius: "8px", display: "flex", alignItems: "center", justifyContent: "center" }}
           >
             {open ? "✕" : "☰"}
