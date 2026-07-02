@@ -8,16 +8,16 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.writerswebproduction.com'),
   title: {
-    default: 'NEXARA - Your World Updated',
+    default: 'NEXARA - Breaking News, Jobs, Scholarships & Global Updates',
     template: '%s | NEXARA',
   },
-  description: 'NEXARA brings you breaking news, global opportunities, scholarships, fellowships, jobs and stories that matter - updated daily.',
+  description: 'Breaking news, global opportunities, scholarships, fellowships & jobs — updated daily by NEXARA.',
   alternates: {
     canonical: '/',
   },
   openGraph: {
-    title: 'NEXARA - Your World Updated',
-    description: 'NEXARA brings you breaking news, global opportunities, scholarships, fellowships, jobs and stories that matter - updated daily.',
+    title: 'NEXARA - Breaking News, Jobs, Scholarships & Global Updates',
+    description: 'Breaking news, global opportunities, scholarships, fellowships & jobs — updated daily by NEXARA.',
     url: 'https://www.writerswebproduction.com',
     siteName: 'NEXARA',
     locale: 'en_US',
@@ -33,8 +33,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NEXARA - Your World Updated',
-    description: 'NEXARA brings you breaking news, global opportunities, scholarships, fellowships, jobs and stories that matter - updated daily.',
+    title: 'NEXARA - Breaking News, Jobs, Scholarships & Global Updates',
+    description: 'Breaking news, global opportunities, scholarships, fellowships & jobs — updated daily by NEXARA.',
     images: ['/og-image.png'],
   },
   verification: {
