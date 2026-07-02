@@ -1,4 +1,5 @@
 import { getPosts } from '../../../lib/api';
+import { getOpportunities } from '../../../lib/opportunities';
 import PostCard from '../../../components/PostCard';
 import type { Metadata } from 'next';
 
@@ -9,7 +10,6 @@ function formatName(name: string) {
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const { name } = await params;
   const displayName = formatName(name);
-
   return {
     title: displayName,
     description: `Browse the latest ${displayName} stories and updates on NEXARA.`,
@@ -23,12 +23,20 @@ export async function generateMetadata({ params }: { params: Promise<{ name: str
 
 export default async function CategoryPage({ params }: { params: Promise<{ name: string }> }) {
   const { name } = await params;
-  const posts = await getPosts();
 
-  const filtered = posts.filter((post: any) => {
+  const [posts, opportunities] = await Promise.all([
+    getPosts(),
+    getOpportunities(name.toLowerCase()),
+  ]);
+
+  const filteredPosts = posts.filter((post: any) => {
     const cat = post._embedded?.['wp:term']?.[0]?.[0]?.name || '';
     return cat.toLowerCase().replace(/\s+/g, '-') === name.toLowerCase();
   });
+
+  const combined = [...filteredPosts, ...opportunities].sort(
+    (a: any, b: any) => new Date(b.date).getTime() - new Date(a.date).getTime()
+  );
 
   const displayName = formatName(name);
 
@@ -38,12 +46,11 @@ export default async function CategoryPage({ params }: { params: Promise<{ name:
         {displayName} <span style={{ color: '#e63946' }}>News</span>
       </h1>
       <p style={{ color: '#999', marginTop: '8px' }}>Browsing the {displayName} category.</p>
-
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginTop: '40px' }}>
-        {filtered.length === 0 && (
+        {combined.length === 0 && (
           <p style={{ color: '#555' }}>No posts in this category yet.</p>
         )}
-        {filtered.map((post: any) => (
+        {combined.map((post: any) => (
           <PostCard key={post.id} post={post} />
         ))}
       </div>

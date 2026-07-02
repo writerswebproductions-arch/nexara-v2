@@ -4,24 +4,14 @@ export default function PostCard({ post, large = false }: { post: any; large?: b
   const featuredImage = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
   const category = post._embedded?.['wp:term']?.[0]?.[0]?.name || 'NEWS';
   const author = post._embedded?.author?.[0]?.name;
-
   const excerpt = post.excerpt.rendered.replace(/<[^>]+>/g, '').slice(0, large ? 180 : 120) + '...';
   const date = new Date(post.date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 
-  return (
-    <Link
-      href={'/blog/' + post.slug}
-      className="post-card"
-      style={{
-        background: '#161616',
-        border: '1px solid #222',
-        borderRadius: '12px',
-        overflow: 'hidden',
-        display: 'block',
-        textDecoration: 'none',
-        height: '100%',
-      }}
-    >
+  const isExternal = Boolean(post.externalUrl);
+  const href = isExternal ? post.externalUrl : '/blog/' + post.slug;
+
+  const cardContent = (
+    <>
       <div className="post-card-img-wrap" style={{ width: '100%', height: large ? '360px' : '180px', background: '#0d0d0d', overflow: 'hidden' }}>
         {featuredImage ? (
           <img
@@ -37,7 +27,6 @@ export default function PostCard({ post, large = false }: { post: any; large?: b
           </div>
         )}
       </div>
-
       <div style={{ padding: large ? '28px' : '24px' }}>
         <span style={{ color: '#e63946', fontWeight: 700, fontSize: '12px', letterSpacing: '2px' }}>
           {category.toUpperCase()}
@@ -55,6 +44,30 @@ export default function PostCard({ post, large = false }: { post: any; large?: b
           {author && <p style={{ color: '#555', fontSize: '12px' }}>{author}</p>}
         </div>
       </div>
+    </>
+  );
+
+  const cardStyle = {
+    background: '#161616',
+    border: '1px solid #222',
+    borderRadius: '12px',
+    overflow: 'hidden',
+    display: 'block',
+    textDecoration: 'none',
+    height: '100%',
+  } as const;
+
+  if (isExternal) {
+    return (
+      <a href={href} target="_blank" rel="noopener noreferrer" className="post-card" style={cardStyle}>
+        {cardContent}
+      </a>
+    );
+  }
+
+  return (
+    <Link href={href} className="post-card" style={cardStyle}>
+      {cardContent}
     </Link>
   );
 }
