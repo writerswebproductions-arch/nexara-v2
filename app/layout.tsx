@@ -8,7 +8,7 @@ import GoogleAnalytics from '../components/GoogleAnalytics';
 export const metadata: Metadata = {
   metadataBase: new URL('https://www.writerswebproduction.com'),
   title: {
-    default: 'NEXARA - Breaking News, Jobs, Scholarships & Global Updates',
+    default: 'NEXARA - Breaking News, Jobs & Global Opportunities',
     template: '%s | NEXARA',
   },
   description: 'Breaking news, global opportunities, scholarships, fellowships & jobs — updated daily by NEXARA.',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     canonical: '/',
   },
   openGraph: {
-    title: 'NEXARA - Breaking News, Jobs, Scholarships & Global Updates',
+    title: 'NEXARA - Breaking News, Jobs & Global Opportunities',
     description: 'Breaking news, global opportunities, scholarships, fellowships & jobs — updated daily by NEXARA.',
     url: 'https://www.writerswebproduction.com',
     siteName: 'NEXARA',
@@ -33,7 +33,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'NEXARA - Breaking News, Jobs, Scholarships & Global Updates',
+    title: 'NEXARA - Breaking News, Jobs & Global Opportunities',
     description: 'Breaking news, global opportunities, scholarships, fellowships & jobs — updated daily by NEXARA.',
     images: ['/og-image.png'],
   },
