@@ -102,19 +102,31 @@ export default function Home() {
 
 async function FeaturedPosts() {
   const posts = await getPosts();
-  const featured = posts.slice(0, 3);
+  const featured = posts.slice(0, 4);
+  const [heroPost, ...restPosts] = featured;
+
   return (
     <section style={{ padding: '60px 20px', maxWidth: '1200px', margin: '0 auto' }}>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px', flexWrap: 'wrap', gap: '12px' }}>
         <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff' }}>Latest Stories</h2>
         <Link href='/blog' style={{ color: '#e63946', fontWeight: 700, fontSize: '14px', textDecoration: 'none' }}>View All →</Link>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
-        {featured.length === 0 && <p style={{ color: '#555' }}>No posts yet.</p>}
-        {featured.map((post: any) => (
-          <PostCard key={post.id} post={post} />
-        ))}
-      </div>
+
+      {featured.length === 0 && <p style={{ color: '#555' }}>No posts yet.</p>}
+
+      {heroPost && (
+        <div style={{ display: 'grid', gridTemplateColumns: restPosts.length ? '1.4fr 1fr' : '1fr', gap: '24px', alignItems: 'start' }}>
+          <PostCard post={heroPost} large />
+
+          {restPosts.length > 0 && (
+            <div style={{ display: 'grid', gridTemplateColumns: '1fr', gap: '20px' }}>
+              {restPosts.map((post: any) => (
+                <PostCard key={post.id} post={post} />
+              ))}
+            </div>
+          )}
+        </div>
+      )}
     </section>
   );
 }
