@@ -1,6 +1,14 @@
 import Link from 'next/link';
 
 export default function Footer() {
+  const socials = [
+    { name: 'Facebook', href: 'https://web.facebook.com/profile.php?id=61591154086030', bg: '#1877f2', icon: 'f' },
+    { name: 'X (Twitter)', href: 'https://x.com/Writerswebb', bg: '#000', border: '1px solid #333', icon: '𝕏' },
+    { name: 'Instagram', href: 'https://www.instagram.com/writerswebbproduction/', bg: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', icon: '📸' },
+    { name: 'LinkedIn', href: 'https://www.linkedin.com/in/aaron-amoako-smith-4657582bb/', bg: '#0077b5', icon: 'in' },
+    { name: 'YouTube', href: 'https://www.youtube.com/@writerswebproductions-x8w', bg: '#ff0000', icon: '▶' },
+  ];
+
   return (
     <footer style={{ background: '#0d0d0d', borderTop: '1px solid #222', padding: '48px 20px 24px' }}>
       <div style={{ maxWidth: '1200px', margin: '0 auto', display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px' }}>
@@ -43,32 +51,39 @@ export default function Footer() {
             <Link href='/disclaimer' style={{ color: '#999', fontSize: '14px' }}>Disclaimer</Link>
           </div>
         </div>
-        <div>
-          <h4 style={{ color: '#fff', fontWeight: 700, marginBottom: '16px' }}>Follow & Connect</h4>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-            <a href="https://web.facebook.com/profile.php?id=61591154086030" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#999', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
-              <span style={{ background: '#1877f2', width: '30px', height: '30px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', flexShrink: 0, color: '#fff' }}>f</span>
-              Facebook
+      </div>
+
+      <div style={{ maxWidth: '1200px', margin: '40px auto 0', paddingTop: '32px', borderTop: '1px solid #1a1a1a' }}>
+        <p style={{ color: '#999', fontSize: '13px', fontWeight: 700, letterSpacing: '1px', marginBottom: '16px' }}>FOLLOW & CONNECT</p>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '14px' }}>
+          {socials.map((s) => (
+            <a
+              key={s.name}
+              href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              title={s.name}
+              style={{
+                background: s.bg,
+                border: s.border || 'none',
+                width: '38px',
+                height: '38px',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontSize: '16px',
+                color: '#fff',
+                textDecoration: 'none',
+                flexShrink: 0,
+              }}
+            >
+              {s.icon}
             </a>
-            <a href="https://x.com/Writerswebb" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#999', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
-              <span style={{ background: '#000', border: '1px solid #333', width: '30px', height: '30px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', flexShrink: 0, color: '#fff' }}>𝕏</span>
-              X (Twitter)
-            </a>
-            <a href="https://www.instagram.com/writerswebbproduction/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#999', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
-              <span style={{ background: 'linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888)', width: '30px', height: '30px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', flexShrink: 0 }}>📸</span>
-              Instagram
-            </a>
-            <a href="https://www.linkedin.com/in/aaron-amoako-smith-4657582bb/" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#999', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
-              <span style={{ background: '#0077b5', width: '30px', height: '30px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', flexShrink: 0, color: '#fff' }}>in</span>
-              LinkedIn
-            </a>
-            <a href="https://www.youtube.com/@writerswebproductions-x8w" target="_blank" rel="noopener noreferrer" style={{ display: 'flex', alignItems: 'center', gap: '12px', color: '#999', textDecoration: 'none', fontSize: '14px', fontWeight: 500 }}>
-              <span style={{ background: '#ff0000', width: '30px', height: '30px', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '15px', flexShrink: 0, color: '#fff' }}>▶</span>
-              YouTube
-            </a>
-          </div>
+          ))}
         </div>
       </div>
+
       <div style={{ maxWidth: '1200px', margin: '32px auto 0', paddingTop: '24px', borderTop: '1px solid #222', textAlign: 'center' }}>
         <p style={{ color: '#555', fontSize: '13px' }}>© 2026 NEXARA. All rights reserved. Your World Updated.</p>
       </div>
