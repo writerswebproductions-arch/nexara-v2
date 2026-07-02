@@ -39,9 +39,52 @@ export default function Home() {
 
       <section style={{ padding: '0 20px 60px', maxWidth: '1200px', margin: '0 auto' }}>
         <h2 style={{ fontSize: '28px', fontWeight: 800, color: '#fff', marginBottom: '32px' }}>Browse By Category</h2>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px' }}>
-          {[['News', '/category/news', '#e63946'], ['Sports', '/category/sports', '#f4a261'], ['Entertainment', '/category/entertainment', '#a8dadc'], ['Politics', '/category/politics', '#457b9d'], ['Technology', '/category/technology', '#2a9d8f']].map(([name, href, color]) => (
-            <Link key={name} href={href} style={{ background: '#161616', border: '1px solid #222', borderRadius: '8px', padding: '24px', textAlign: 'center', color: color as string, fontWeight: 700, fontSize: '16px', display: 'block', textDecoration: 'none' }}>{name}</Link>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '20px' }}>
+          {[
+            ['News', '/category/news', '/cat-news.jpg'],
+            ['Sports', '/category/sports', '/cat-sports.jpg'],
+            ['Entertainment', '/category/entertainment', '/cat-entertainment.jpg'],
+            ['Politics', '/category/politics', '/cat-politics.jpg'],
+            ['Technology', '/category/technology', '/cat-technology.jpg'],
+          ].map(([name, href, image]) => (
+            <Link
+              key={name}
+              href={href}
+              className="category-card"
+              style={{
+                position: 'relative',
+                height: '160px',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                display: 'block',
+                textDecoration: 'none',
+                border: '1px solid #222',
+                backgroundImage: `url(${image})`,
+                backgroundSize: 'cover',
+                backgroundPosition: 'center',
+              }}
+            >
+              <div
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  background: 'linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.75) 100%)',
+                }}
+              />
+              <span
+                style={{
+                  position: 'absolute',
+                  bottom: '16px',
+                  left: '20px',
+                  color: '#fff',
+                  fontWeight: 800,
+                  fontSize: '18px',
+                  zIndex: 1,
+                }}
+              >
+                {name}
+              </span>
+            </Link>
           ))}
         </div>
       </section>
