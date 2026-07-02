@@ -22,11 +22,20 @@ export const metadata: Metadata = {
     siteName: 'NEXARA',
     locale: 'en_US',
     type: 'website',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'NEXARA - Your World Updated',
+      },
+    ],
   },
   twitter: {
     card: 'summary_large_image',
     title: 'NEXARA - Your World Updated',
     description: 'NEXARA brings you breaking news, global opportunities, scholarships, fellowships, jobs and stories that matter - updated daily.',
+    images: ['/og-image.png'],
   },
   verification: {
     google: 'fgELsB8m2_u43PPn6zYICAYdt100oQlpOSzQ-YdKEb8',
