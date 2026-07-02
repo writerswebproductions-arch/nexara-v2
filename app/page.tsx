@@ -1,4 +1,4 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { getPosts } from '../lib/api';
 import PostCard from '../components/PostCard';
 import NewsletterForm from '../components/NewsletterForm';
@@ -6,14 +6,31 @@ import NewsletterForm from '../components/NewsletterForm';
 export default function Home() {
   return (
     <main>
-      <section style={{ background: 'linear-gradient(135deg, #0a0a0a 0%, #1a0a0a 100%)', padding: '80px 20px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+      <section
+        style={{
+          position: 'relative',
+          padding: '100px 20px',
+          textAlign: 'center',
+          backgroundImage: 'url(/hero-bg.jpg)',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          overflow: 'hidden',
+        }}
+      >
+        <div
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: 'linear-gradient(180deg, rgba(10,10,10,0.55) 0%, rgba(10,10,10,0.85) 100%)',
+          }}
+        />
+        <div style={{ position: 'relative', maxWidth: '800px', margin: '0 auto', zIndex: 1 }}>
           <span style={{ background: '#e63946', color: '#fff', padding: '4px 12px', borderRadius: '4px', fontSize: '12px', fontWeight: 700, letterSpacing: '2px' }}>YOUR WORLD UPDATED</span>
           <h1 style={{ fontSize: '56px', fontWeight: 900, color: '#fff', marginTop: '20px', lineHeight: 1.1 }}>Stay Ahead With <span style={{ color: '#e63946' }}>NEXARA</span></h1>
-          <p style={{ color: '#999', fontSize: '18px', marginTop: '20px', lineHeight: 1.8 }}>Breaking news, global opportunities, and stories that matter — all in one place.</p>
+          <p style={{ color: '#ccc', fontSize: '18px', marginTop: '20px', lineHeight: 1.8 }}>Breaking news, global opportunities, and stories that matter — all in one place.</p>
           <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', marginTop: '32px', flexWrap: 'wrap' }}>
             <Link href='/blog' style={{ background: '#e63946', color: '#fff', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', textDecoration: 'none' }}>Read Latest News</Link>
-            <Link href='/opportunities' style={{ background: 'transparent', color: '#fff', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', border: '1px solid #444', textDecoration: 'none' }}>Find Opportunities</Link>
+            <Link href='/opportunities' style={{ background: 'rgba(255,255,255,0.05)', color: '#fff', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', border: '1px solid #444', textDecoration: 'none' }}>Find Opportunities</Link>
           </div>
         </div>
       </section>
