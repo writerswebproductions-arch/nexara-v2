@@ -6,10 +6,12 @@ import { useRouter } from "next/navigation";
 export default function Navbar() {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
+  const [mounted, setMounted] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
+    setMounted(true);
     function checkSize() {
       setIsMobile(window.innerWidth < 768);
     }
@@ -27,13 +29,15 @@ export default function Navbar() {
   }
 
   const linkStyle = { color: "#fff", fontSize: "14px", fontWeight: 500, textDecoration: "none" } as const;
+  const mobileLinkStyle = { color: "#fff", fontSize: "18px", fontWeight: 600, textDecoration: "none" } as const;
 
   return (
     <nav style={{ background: "#0a0a0a", borderBottom: "1px solid #222", position: "sticky", top: 0, zIndex: 9999, width: "100%" }}>
       <div style={{ maxWidth: "1200px", margin: "0 auto", padding: "0 20px", display: "flex", alignItems: "center", justifyContent: "space-between", height: "64px" }}>
         <Link href="/" style={{ fontSize: "24px", fontWeight: 800, color: "#e63946", letterSpacing: "-1px", textDecoration: "none" }}>NEXARA</Link>
 
-        {!isMobile && (
+        {/* Show desktop nav only when mounted and not mobile */}
+        {mounted && !isMobile && (
           <div style={{ display: "flex", gap: "24px", alignItems: "center" }}>
             <Link href="/" style={linkStyle}>Home</Link>
             <Link href="/blog" style={linkStyle}>Blog</Link>
@@ -53,7 +57,8 @@ export default function Navbar() {
           </div>
         )}
 
-        {isMobile && (
+        {/* Always show hamburger on mobile — even before mount */}
+        {(!mounted || isMobile) && (
           <button
             type="button"
             onClick={() => setOpen((v) => !v)}
@@ -64,7 +69,8 @@ export default function Navbar() {
         )}
       </div>
 
-      {isMobile && open && (
+      {/* Mobile dropdown */}
+      {open && (
         <div style={{ background: "#111", borderTop: "1px solid #222", padding: "20px", display: "flex", flexDirection: "column", gap: "20px" }}>
           <form onSubmit={handleSearch} style={{ display: "flex", gap: "8px" }}>
             <input
@@ -76,11 +82,11 @@ export default function Navbar() {
             />
             <button type="submit" style={{ background: "#e63946", color: "#fff", border: "none", borderRadius: "6px", padding: "10px 16px", fontWeight: 700, cursor: "pointer" }}>Go</button>
           </form>
-          <Link href="/" onClick={() => setOpen(false)} style={{ color: "#fff", fontSize: "18px", fontWeight: 600, textDecoration: "none" }}>Home</Link>
-          <Link href="/blog" onClick={() => setOpen(false)} style={{ color: "#fff", fontSize: "18px", fontWeight: 600, textDecoration: "none" }}>Blog</Link>
-          <Link href="/opportunities" onClick={() => setOpen(false)} style={{ color: "#fff", fontSize: "18px", fontWeight: 600, textDecoration: "none" }}>Opportunities</Link>
-          <Link href="/about" onClick={() => setOpen(false)} style={{ color: "#fff", fontSize: "18px", fontWeight: 600, textDecoration: "none" }}>Contact</Link>
-          <Link href="/contact" onClick={() => setOpen(false)} style={{ color: "#fff", fontSize: "18px", fontWeight: 600, textDecoration: "none" }}>Contact</Link>
+          <Link href="/" onClick={() => setOpen(false)} style={mobileLinkStyle}>Home</Link>
+          <Link href="/blog" onClick={() => setOpen(false)} style={mobileLinkStyle}>Blog</Link>
+          <Link href="/opportunities" onClick={() => setOpen(false)} style={mobileLinkStyle}>Opportunities</Link>
+          <Link href="/about" onClick={() => setOpen(false)} style={mobileLinkStyle}>About</Link>
+          <Link href="/contact" onClick={() => setOpen(false)} style={mobileLinkStyle}>Contact</Link>
         </div>
       )}
     </nav>
