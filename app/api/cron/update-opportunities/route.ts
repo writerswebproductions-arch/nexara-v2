@@ -3,9 +3,6 @@ import Parser from 'rss-parser';
 import { getSupabaseAdmin } from '../../../../lib/supabase';
 
 const RSS_SOURCES: Record<string, { url: string; name: string }[]> = {
-  grants: [
-    { url: 'https://www.grants.gov/rss/GG_OppModByCategory.xml', name: 'Grants.gov' },
-  ],
   scholarships: [
     { url: 'https://opportunitydesk.org/category/scholarships/feed/', name: 'Opportunity Desk' },
   ],
@@ -89,6 +86,42 @@ async function fetchJobs() {
   return rows;
 }
 
+async function fetchGrants() {
+  const rows: any[] = [];
+  try {
+    const res = await fetch('https://api.grants.gov/v1/api/search2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ rows: 20, oppStatuses: 'posted' }),
+    });
+    if (res.ok) {
+      const data = await res.json();
+      const hits = data?.data?.oppHits || [];
+      for (const opp of hits) {
+        const title = opp.title || opp.opportunityTitle;
+        const oppId = opp.id || opp.opportunityId || opp.number;
+        if (!title || !oppId) continue;
+        const detailUrl = `https://www.grants.gov/search-results-detail/${oppId}`;
+        rows.push({
+          slug: slugify(title) + '-' + slugify(String(oppId)),
+          title,
+          excerpt: (opp.description || opp.agencyName || '').toString().slice(0, 300),
+          category: 'grants',
+          source_url: detailUrl,
+          source_name: 'Grants.gov',
+          deadline: opp.closeDate || null,
+          date_added: opp.postDate || new Date().toISOString(),
+        });
+      }
+    } else {
+      console.error('Grants.gov API returned status', res.status);
+    }
+  } catch (err) {
+    console.error('Failed to fetch Grants.gov:', err);
+  }
+  return rows;
+}
+
 export async function GET(req: NextRequest) {
   const authHeader = req.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
@@ -103,6 +136,7 @@ export async function GET(req: NextRequest) {
     allRows = allRows.concat(rows);
   }
   allRows = allRows.concat(await fetchJobs());
+  allRows = allRows.concat(await fetchGrants());
 
   if (allRows.length === 0) {
     return NextResponse.json({ inserted: 0, message: 'No items fetched' });
